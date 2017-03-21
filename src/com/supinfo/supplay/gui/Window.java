@@ -1,7 +1,6 @@
 package com.supinfo.supplay.gui;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -59,24 +58,11 @@ public class Window extends JFrame {
 	
 	private JPanel generatePanel()
 	{
-		/*JPanel p = new JPanel();
-		JScrollPane sp = new JScrollPane();
-		
-		Object[][] data = {};
-		this.table = new JTable(50, 3);
-		//sp.add(table);
-		
-		JPanel pCenter = new JPanel();
-
-		p.add(table, BorderLayout.CENTER);
-		//pCenter.add(sp);
-		*/
-		
 		JPanel p = new JPanel(new BorderLayout());
 		
 		Object[][] data = {};
 		this.table = new JTable(new JT_Model(data, COLUMN_NAMES));
-		JPanel pCenter = new JPanel(new FlowLayout());
+		JPanel pCenter = new JPanel();
 
 		pCenter.add(new JScrollPane(table));
 		p.add(pCenter, BorderLayout.CENTER);
