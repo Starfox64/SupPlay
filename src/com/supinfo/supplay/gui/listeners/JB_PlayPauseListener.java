@@ -1,4 +1,4 @@
-package com.supinfo.supplay.gui;
+package com.supinfo.supplay.gui.listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

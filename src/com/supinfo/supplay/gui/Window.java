@@ -1,19 +1,21 @@
 package com.supinfo.supplay.gui;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import com.supinfo.supplay.gui.listeners.JMI_OpenFileListener;
+import com.supinfo.supplay.gui.listeners.W_CloseListener;
+
+import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame {
@@ -24,6 +26,8 @@ public class Window extends JFrame {
 	
 	public static final String[] COLUMN_NAMES = {"Name", "Time", "Format"};
 	
+	private static EmbeddedMediaPlayerComponent mpc;
+	
 	private static JTable table;
 	
 	public Window()
@@ -31,7 +35,9 @@ public class Window extends JFrame {
 		this.setSize(W_WIDTH, W_HEIGHT);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new W_CloseListener());
+		
 		
 		this.setTitle(W_NAME);
 		
@@ -68,18 +74,12 @@ public class Window extends JFrame {
 		//grid
 		List<List<Object>> data = new ArrayList<>();
 		table = new JTable(new JT_Model(data, COLUMN_NAMES));
-		p.add(new JScrollPane(table), BorderLayout.CENTER);
-		
+		p.add(new JScrollPane(table), BorderLayout.NORTH);
+
 		//bottom bar
-		JPanel southPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		JButton play = new JButton("Play / Pause");
-		play.addActionListener(new JB_PlayPauseListener());
-		southPane.add(play);
+		mpc = new EmbeddedMediaPlayerComponent();
 		
-		JProgressBar bar = new JProgressBar(0, 100);
-		southPane.add(bar);
-		
-		p.add(southPane, BorderLayout.SOUTH);
+		p.add(mpc, BorderLayout.CENTER);
 		
 		
 		return p;
@@ -89,5 +89,10 @@ public class Window extends JFrame {
 	public static JTable getTable()
 	{
 		return table;
+	}
+	
+	public static EmbeddedMediaPlayerComponent getMPC()
+	{
+		return mpc;
 	}
 }

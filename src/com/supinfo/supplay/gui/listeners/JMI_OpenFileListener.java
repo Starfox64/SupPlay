@@ -1,10 +1,11 @@
-package com.supinfo.supplay.gui;
+package com.supinfo.supplay.gui.listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.supinfo.supplay.gui.Window;
 
 public class JMI_OpenFileListener implements ActionListener {
 
@@ -12,10 +13,12 @@ public class JMI_OpenFileListener implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		jfc.setFileFilter(new FileNameExtensionFilter(null, "wav", "mp3"));
+		//jfc.setFileFilter(new FileNameExtensionFilter(null, "wav", "mp3"));
 		if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			//put selected file into the grid
-			Window.getTable().getModel().ad;
+			String file = jfc.getSelectedFile().getAbsolutePath();
+			Window.getMPC().getMediaPlayer().playMedia(file);
+			
 		}
 	}
 
