@@ -1,9 +1,11 @@
 package com.supinfo.supplay.gui;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -12,23 +14,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.supinfo.supplay.gui.listeners.JB_PlayPauseListener;
 import com.supinfo.supplay.gui.listeners.JMI_OpenFileListener;
 import com.supinfo.supplay.gui.listeners.W_CloseListener;
-
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame {
 	
 	public static final int W_WIDTH = 1200;
-	public static final int W_HEIGHT = 800;
+	public static final int W_HEIGHT = 600;
 	public static final String W_NAME = "SupPlay";
 	
 	public static final String[] COLUMN_NAMES = {"Name", "Time", "Format"};
 	
-	private static EmbeddedMediaPlayerComponent mpc;
-	
-	private static JTable table;
+	private JTable table;
 	
 	public Window()
 	{
@@ -40,9 +39,7 @@ public class Window extends JFrame {
 		
 		
 		this.setTitle(W_NAME);
-		
 		this.setJMenuBar(this.generateMenuBar());
-		
 		this.setContentPane(this.generatePanel());
 		
 		this.setVisible(true);
@@ -77,22 +74,19 @@ public class Window extends JFrame {
 		p.add(new JScrollPane(table), BorderLayout.NORTH);
 
 		//bottom bar
-		mpc = new EmbeddedMediaPlayerComponent();
-		
-		p.add(mpc, BorderLayout.CENTER);
+		JPanel botPane = new JPanel(new FlowLayout());
+		JButton b = new JButton("Play");
+		b.addActionListener(new JB_PlayPauseListener());
+		botPane.add(b);
+		p.add(botPane, BorderLayout.CENTER);
 		
 		
 		return p;
 	}
 	
 	
-	public static JTable getTable()
+	public JTable getTable()
 	{
 		return table;
-	}
-	
-	public static EmbeddedMediaPlayerComponent getMPC()
-	{
-		return mpc;
 	}
 }
