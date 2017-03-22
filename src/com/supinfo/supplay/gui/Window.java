@@ -1,12 +1,17 @@
 package com.supinfo.supplay.gui;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -19,7 +24,7 @@ public class Window extends JFrame {
 	
 	public static final String[] COLUMN_NAMES = {"Name", "Time", "Format"};
 	
-	private JTable table;
+	private static JTable table;
 	
 	public Window()
 	{
@@ -60,19 +65,29 @@ public class Window extends JFrame {
 	{
 		JPanel p = new JPanel(new BorderLayout());
 		
-		Object[][] data = {};
-		this.table = new JTable(new JT_Model(data, COLUMN_NAMES));
-		JPanel pCenter = new JPanel();
-
-		pCenter.add(new JScrollPane(table));
-		p.add(pCenter, BorderLayout.CENTER);
+		//grid
+		List<List<Object>> data = new ArrayList<>();
+		table = new JTable(new JT_Model(data, COLUMN_NAMES));
+		p.add(new JScrollPane(table), BorderLayout.CENTER);
+		
+		//bottom bar
+		JPanel southPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JButton play = new JButton("Play / Pause");
+		play.addActionListener(new JB_PlayPauseListener());
+		southPane.add(play);
+		
+		JProgressBar bar = new JProgressBar(0, 100);
+		southPane.add(bar);
+		
+		p.add(southPane, BorderLayout.SOUTH);
+		
 		
 		return p;
 	}
 	
 	
-	public JTable getTable()
+	public static JTable getTable()
 	{
-		return this.table;
+		return table;
 	}
 }
