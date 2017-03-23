@@ -4,13 +4,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFileChooser;
-import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.supinfo.supplay.SupPlay;
+import com.supinfo.supplay.gui.Window;
 
 public class JMI_OpenFileListener implements ActionListener {
 
+	private Window window;
+	
+	public JMI_OpenFileListener(Window window)
+	{
+		this.window = window;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		JFileChooser jfc = new JFileChooser();
@@ -19,18 +25,10 @@ public class JMI_OpenFileListener implements ActionListener {
 		if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			//put selected file into the grid
 			String file = jfc.getSelectedFile().getAbsolutePath();
-			SupPlay.MPC.getMediaPlayer().prepareMedia(file);
-			SupPlay.MPC.getMediaPlayer().parseMedia();
-			SupPlay.MPC.getMediaPlayer().playMedia(file);
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					SupPlay.WINDOW.setTitle(
-							"SupPlay - " +
-							SupPlay.MPC.getMediaPlayer().getMediaMeta().getTitle()
-					);
-				}
-			});
+			window.getEMP().prepareMedia(file);
+			window.getEMP().parseMedia();
+			window.getEMP().playMedia(file);
+			window.setTitle("SupPlay - " + window.getEMP().getMediaMeta().getTitle());
 		}
 	}
 

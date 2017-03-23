@@ -2,8 +2,6 @@ package com.supinfo.supplay.gui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +16,9 @@ import com.supinfo.supplay.gui.listeners.JB_PlayPauseListener;
 import com.supinfo.supplay.gui.listeners.JMI_OpenFileListener;
 import com.supinfo.supplay.gui.listeners.W_CloseListener;
 
+import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+
 @SuppressWarnings("serial")
 public class Window extends JFrame {
 	
@@ -28,6 +29,10 @@ public class Window extends JFrame {
 	public static final String[] COLUMN_NAMES = {"Name", "Time", "Format"};
 	
 	private JTable table;
+	private JT_Model TModel;
+	
+	private MediaPlayerFactory MPF;
+	private EmbeddedMediaPlayer EMP;
 	
 	public Window()
 	{
@@ -35,8 +40,11 @@ public class Window extends JFrame {
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		this.addWindowListener(new W_CloseListener());
-		
+		this.addWindowListener(new W_CloseListener(this));
+
+		//MPC = new AudioMediaPlayerComponent();
+		MPF = new MediaPlayerFactory();
+		EMP = MPF.newEmbeddedMediaPlayer();
 		
 		this.setTitle(W_NAME);
 		this.setJMenuBar(this.generateMenuBar());
@@ -51,7 +59,7 @@ public class Window extends JFrame {
 		
 		JMenu m = new JMenu("File");
 		JMenuItem mi = new JMenuItem("Open file");
-		mi.addActionListener(new JMI_OpenFileListener());
+		mi.addActionListener(new JMI_OpenFileListener(this));
 		m.add(mi);
 		
 		mb.add(m);
@@ -69,14 +77,15 @@ public class Window extends JFrame {
 		JPanel p = new JPanel(new BorderLayout());
 		
 		//grid
-		List<List<Object>> data = new ArrayList<>();
-		table = new JTable(new JT_Model(data, COLUMN_NAMES));
+		Object[][] data = new Object[0][0];
+		TModel = new JT_Model(data, COLUMN_NAMES);
+		table = new JTable(TModel);
 		p.add(new JScrollPane(table), BorderLayout.NORTH);
-
+		
 		//bottom bar
 		JPanel botPane = new JPanel(new FlowLayout());
 		JButton b = new JButton("Play");
-		b.addActionListener(new JB_PlayPauseListener());
+		b.addActionListener(new JB_PlayPauseListener(this));
 		botPane.add(b);
 		p.add(botPane, BorderLayout.CENTER);
 		
@@ -84,9 +93,18 @@ public class Window extends JFrame {
 		return p;
 	}
 	
+	public EmbeddedMediaPlayer getEMP()
+	{
+		return EMP;
+	}
 	
 	public JTable getTable()
 	{
 		return table;
+	}
+	
+	public JT_Model getModel()
+	{
+		return TModel;
 	}
 }
