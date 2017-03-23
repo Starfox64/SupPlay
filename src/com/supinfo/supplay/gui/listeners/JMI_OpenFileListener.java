@@ -17,6 +17,17 @@ public class JMI_OpenFileListener implements ActionListener {
 		this.window = window;
 	}
 	
+	public String[] parseFileName(String file)
+	{
+		String[] parsedFile = new String[2];
+
+		int i = file.lastIndexOf('.');
+		parsedFile[0] = file.substring(0, i);
+	    parsedFile[1] = file.substring(i+1);
+		return parsedFile;
+	}
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		JFileChooser jfc = new JFileChooser();
@@ -25,10 +36,18 @@ public class JMI_OpenFileListener implements ActionListener {
 		if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			//put selected file into the grid
 			String file = jfc.getSelectedFile().getAbsolutePath();
-			window.getEMP().prepareMedia(file);
-			window.getEMP().parseMedia();
-			window.getEMP().playMedia(file);
-			window.setTitle("SupPlay - " + window.getEMP().getMediaMeta().getTitle());
+			String[] filename = parseFileName(jfc.getSelectedFile().getName());
+			Object[] content = {filename[0], "-1", filename[1], file};
+			window.getModel().addRow(content);
+			content = null;
+			filename = null;
+			if (!window.getEMP().isPlaying())
+			{
+				window.getEMP().prepareMedia(file);
+				window.getEMP().parseMedia();
+				window.getEMP().playMedia(file);
+				window.setTitle("SupPlay - " + window.getEMP().getMediaMeta().getTitle());
+			}
 		}
 	}
 

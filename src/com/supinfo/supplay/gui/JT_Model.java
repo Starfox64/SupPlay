@@ -7,13 +7,15 @@ public class JT_Model extends AbstractTableModel {
 	
 	private Object[][] data;
 	private String[] colHeaders;
-	private int size;
+	
+	private int dataWIDTH;
 	
 	
 	public JT_Model(Object[][] data, String[] columnHeaders)
 	{
 		this.data = data;
 		this.colHeaders = columnHeaders;
+		this.dataWIDTH = 4;
 	}
 	
 	@Override
@@ -41,6 +43,13 @@ public class JT_Model extends AbstractTableModel {
 		return data[row][col];
 	}
 	
+	public Object[] getRow(int row)
+	{
+		if (0 <= row && row < data.length)
+			return data[row];
+		return null;
+	}
+	
 	
 	@Override
 	public void setValueAt(Object value, int row, int col)
@@ -56,10 +65,10 @@ public class JT_Model extends AbstractTableModel {
 	public void addRow(Object[] row)
 	{
 		Object[][] temp = data;
-		data = new Object[data.length + 1][colHeaders.length];
+		data = new Object[data.length + 1][dataWIDTH];
 		for (int line = 0; line < temp.length; line++)
 		{
-			for (int col = 0; col < colHeaders.length; col++)
+			for (int col = 0; col < dataWIDTH; col++)
 				data[line][col] = temp[line][col];
 		}
 		temp = null;

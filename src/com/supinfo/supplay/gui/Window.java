@@ -9,9 +9,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.supinfo.supplay.audio.listener.MP_EventListener;
 import com.supinfo.supplay.gui.listeners.JB_PlayPauseListener;
 import com.supinfo.supplay.gui.listeners.JMI_OpenFileListener;
 import com.supinfo.supplay.gui.listeners.W_CloseListener;
@@ -30,9 +32,12 @@ public class Window extends JFrame {
 	
 	private JTable table;
 	private JT_Model TModel;
+	private JProgressBar jpg;
 	
 	private MediaPlayerFactory MPF;
 	private EmbeddedMediaPlayer EMP;
+	
+	private int currentFile = 0;
 	
 	public Window()
 	{
@@ -42,9 +47,9 @@ public class Window extends JFrame {
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new W_CloseListener(this));
 
-		//MPC = new AudioMediaPlayerComponent();
 		MPF = new MediaPlayerFactory();
 		EMP = MPF.newEmbeddedMediaPlayer();
+		EMP.addMediaPlayerEventListener(new MP_EventListener(this));
 		
 		this.setTitle(W_NAME);
 		this.setJMenuBar(this.generateMenuBar());
@@ -80,6 +85,7 @@ public class Window extends JFrame {
 		Object[][] data = new Object[0][0];
 		TModel = new JT_Model(data, COLUMN_NAMES);
 		table = new JTable(TModel);
+		
 		p.add(new JScrollPane(table), BorderLayout.NORTH);
 		
 		//bottom bar
@@ -87,6 +93,9 @@ public class Window extends JFrame {
 		JButton b = new JButton("Play");
 		b.addActionListener(new JB_PlayPauseListener(this));
 		botPane.add(b);
+		jpg = new JProgressBar(0, 100);
+		botPane.add(jpg);
+		
 		p.add(botPane, BorderLayout.CENTER);
 		
 		
@@ -106,5 +115,20 @@ public class Window extends JFrame {
 	public JT_Model getModel()
 	{
 		return TModel;
+	}
+	
+	public int getCurrentFile()
+	{
+		return currentFile;
+	}
+	
+	public void incCurrentFile()
+	{
+		currentFile++;
+	}
+	
+	public JProgressBar getJPG()
+	{
+		return jpg;
 	}
 }
