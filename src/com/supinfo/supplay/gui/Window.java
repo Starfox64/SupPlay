@@ -11,11 +11,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTable;
 
 import com.supinfo.supplay.audio.listener.MP_EventListener;
 import com.supinfo.supplay.gui.listeners.JB_PlayPauseListener;
 import com.supinfo.supplay.gui.listeners.JMI_OpenFileListener;
+import com.supinfo.supplay.gui.listeners.S_VolumeListener;
 import com.supinfo.supplay.gui.listeners.W_CloseListener;
 
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
@@ -33,6 +35,7 @@ public class Window extends JFrame {
 	private JTable table;
 	private JT_Model TModel;
 	private JProgressBar jpg;
+	private JSlider volume;
 	
 	private MediaPlayerFactory MPF;
 	private EmbeddedMediaPlayer EMP;
@@ -50,6 +53,7 @@ public class Window extends JFrame {
 		MPF = new MediaPlayerFactory();
 		EMP = MPF.newEmbeddedMediaPlayer();
 		EMP.addMediaPlayerEventListener(new MP_EventListener(this));
+		EMP.setVolume(50);
 		
 		this.setTitle(W_NAME);
 		this.setJMenuBar(this.generateMenuBar());
@@ -93,8 +97,18 @@ public class Window extends JFrame {
 		JButton b = new JButton("Play");
 		b.addActionListener(new JB_PlayPauseListener(this));
 		botPane.add(b);
+		
 		jpg = new JProgressBar(0, 100);
 		botPane.add(jpg);
+		
+		volume = new JSlider(0, 10, 5);
+		volume.setMajorTickSpacing(5);
+		volume.setMinorTickSpacing(1);
+		volume.setPaintTicks(true);
+		volume.setPaintLabels(false);
+		volume.addChangeListener(new S_VolumeListener(this));
+		
+		botPane.add(volume);
 		
 		p.add(botPane, BorderLayout.CENTER);
 		
@@ -131,4 +145,10 @@ public class Window extends JFrame {
 	{
 		return jpg;
 	}
+
+	public JSlider getVolumeSlider()
+	{
+		return volume;
+	}
+
 }

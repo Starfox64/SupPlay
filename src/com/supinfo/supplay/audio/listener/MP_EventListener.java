@@ -158,12 +158,10 @@ public class MP_EventListener implements MediaPlayerEventListener {
 
 	private String secondsToHMS(int seconds)
 	{
-		String str = "";
 		int s = seconds % 60;
 		int m = Math.round(seconds / 60);
 		int h = Math.round(seconds / 3600);
-		str += h + ":" + m + ":" + s;
-		return str;
+		return String.format("%d:%02d:%02d", h, m, s);
 	}
 	
 	@Override
