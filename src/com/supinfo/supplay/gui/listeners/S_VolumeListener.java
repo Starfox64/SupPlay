@@ -19,7 +19,7 @@ public class S_VolumeListener implements ChangeListener {
 	public void stateChanged(ChangeEvent arg) {
 		JSlider source = (JSlider)arg.getSource();
 	    if (!source.getValueIsAdjusting()) {
-	        window.getEMP().setVolume(source.getValue() * 10);
+	        window.getEMP().setVolume(source.getValue());
 	    }
 	}
 

@@ -1,8 +1,10 @@
 package com.supinfo.supplay.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -26,8 +28,8 @@ import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 @SuppressWarnings("serial")
 public class Window extends JFrame {
 	
-	public static final int W_WIDTH = 1200;
-	public static final int W_HEIGHT = 600;
+	public static final int W_WIDTH = 1000;
+	public static final int W_HEIGHT = 550;
 	public static final String W_NAME = "SupPlay";
 	
 	public static final String[] COLUMN_NAMES = {"Name", "Time", "Format"};
@@ -36,14 +38,17 @@ public class Window extends JFrame {
 	private JT_Model TModel;
 	private JProgressBar jpg;
 	private JSlider volume;
+	private JButton playButton;
 	
 	private MediaPlayerFactory MPF;
 	private EmbeddedMediaPlayer EMP;
 	
-	private int currentFile = 0;
+	private int currentFile;
 	
 	public Window()
 	{
+		this.currentFile = -1;
+		
 		this.setSize(W_WIDTH, W_HEIGHT);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
@@ -93,22 +98,26 @@ public class Window extends JFrame {
 		p.add(new JScrollPane(table), BorderLayout.NORTH);
 		
 		//bottom bar
-		JPanel botPane = new JPanel(new FlowLayout());
-		JButton b = new JButton("Play");
-		b.addActionListener(new JB_PlayPauseListener(this));
-		botPane.add(b);
+		JPanel botPane = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		playButton = new JButton(new ImageIcon(this.getClass().getResource("../img/play-button.png")));
+		playButton.addActionListener(new JB_PlayPauseListener(this));
+		botPane.add(playButton);
 		
 		jpg = new JProgressBar(0, 100);
+		jpg.setPreferredSize(new Dimension(630, 20));
 		botPane.add(jpg);
 		
-		volume = new JSlider(0, 10, 5);
-		volume.setMajorTickSpacing(5);
+		volume = new JSlider(0, 100, 50);
+		volume.setMajorTickSpacing(10);
 		volume.setMinorTickSpacing(1);
-		volume.setPaintTicks(true);
+		volume.setPaintTicks(false);
 		volume.setPaintLabels(false);
 		volume.addChangeListener(new S_VolumeListener(this));
 		
+		
 		botPane.add(volume);
+		
+		botPane.add(new JButton(new ImageIcon(this.getClass().getResource("../img/fullscreen.png"))));
 		
 		p.add(botPane, BorderLayout.CENTER);
 		
@@ -151,4 +160,8 @@ public class Window extends JFrame {
 		return volume;
 	}
 
+	public JButton getPlayButton()
+	{
+		return playButton;
+	}
 }

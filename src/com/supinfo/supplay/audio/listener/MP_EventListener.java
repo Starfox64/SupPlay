@@ -135,13 +135,10 @@ public class MP_EventListener implements MediaPlayerEventListener {
 
 	@Override
 	public void paused(MediaPlayer arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void playing(MediaPlayer arg0) {
-		
 	}
 
 	@Override

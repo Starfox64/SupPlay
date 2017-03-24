@@ -3,6 +3,7 @@ package com.supinfo.supplay.gui.listeners;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -47,6 +48,10 @@ public class JMI_OpenFileListener implements ActionListener {
 				window.getEMP().parseMedia();
 				window.getEMP().playMedia(file);
 				window.setTitle("SupPlay - " + window.getEMP().getMediaMeta().getTitle());
+				window.incCurrentFile();
+				window.getPlayButton().setIcon(
+						new ImageIcon(this.getClass().getResource("../../img/pause-button.png"))
+					);
 			}
 		}
 	}
