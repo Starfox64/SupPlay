@@ -18,6 +18,7 @@ import javax.swing.JTable;
 
 import com.supinfo.supplay.audio.listener.MP_EventListener;
 import com.supinfo.supplay.gui.listeners.JB_PlayPauseListener;
+import com.supinfo.supplay.gui.listeners.JB_SoundListener;
 import com.supinfo.supplay.gui.listeners.JMI_OpenFileListener;
 import com.supinfo.supplay.gui.listeners.S_VolumeListener;
 import com.supinfo.supplay.gui.listeners.W_CloseListener;
@@ -39,6 +40,7 @@ public class Window extends JFrame {
 	private JProgressBar jpg;
 	private JSlider volume;
 	private JButton playButton;
+	private JButton soundButton;
 	
 	private MediaPlayerFactory MPF;
 	private EmbeddedMediaPlayer EMP;
@@ -104,8 +106,12 @@ public class Window extends JFrame {
 		botPane.add(playButton);
 		
 		jpg = new JProgressBar(0, 100);
-		jpg.setPreferredSize(new Dimension(630, 20));
+		jpg.setPreferredSize(new Dimension(570, 20));
 		botPane.add(jpg);
+		
+		soundButton = new JButton(new ImageIcon(this.getClass().getResource("../img/sound.png")));
+		soundButton.addActionListener(new JB_SoundListener(this));
+		botPane.add(soundButton);
 		
 		volume = new JSlider(0, 100, 50);
 		volume.setMajorTickSpacing(10);
