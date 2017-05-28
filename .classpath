@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Valentin/Documents/GitHub/SupPlay/jvlc/jna-3.5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Valentin/Documents/GitHub/SupPlay/jvlc/platform-3.5.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Valentin/Documents/GitHub/SupPlay/jvlc/vlcj-3.0.1.jar"/>
+	<classpathentry kind="lib" path="jvlc/jna-3.5.2.jar"/>
+	<classpathentry kind="lib" path="jvlc/platform-3.5.2.jar"/>
+	<classpathentry kind="lib" path="jvlc/vlcj-3.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
